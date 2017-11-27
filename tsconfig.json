@@ -1,0 +1,35 @@
+{
+    "filesGlob": [
+        "**/*.ts"
+    ],
+    "compileOnSave": false,
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "es7"
+        ],
+        "target": "ES6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "out/",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": false,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": [
+            "node"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "atom": {
+        "rewriteTsconfig": false
+    }
+}
