@@ -22,8 +22,8 @@ function replaceLineContent(line: string, contentSubstitut: string, noContentSub
 /**
  * Modified code from: https://github.com/JonathanStoye/single-line-to-multi-line-comment-converter
  * @param {string} line The string to process
- * @param {RegExpMatchArray} previousMatch If the previous line was a comment
- * @param {RegExpMatchArray} nextMatch If the next line is a comment
+ * @param {RegExpMatchArray | null} previousMatch If the previous line was a comment
+ * @param {RegExpMatchArray | null} nextMatch If the next line is a comment
  * @returns {string} The replaced line
  */
   function replaceLine(line: string, previousMatch: RegExpMatchArray | null, nextMatch: RegExpMatchArray | null): string {
