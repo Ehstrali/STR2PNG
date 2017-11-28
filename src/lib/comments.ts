@@ -4,7 +4,7 @@ const commentWithoutContent: RegExp = /^([ ]*)\/\/.*$/gm; // Matches if this is 
  * @param {string} line The string to process
  * @param {string} contentSubstitut What to replace with if there is content on this line after the '//'
  * @param {string} noContentSubstitut What to replace with if it is just a comment without content after the '//'
- * @param {string} previousAndNextMatch Whether or not the previous && the next line match with a comment
+ * @param {boolean} previousAndNextMatch Whether or not the previous && the next line match with a comment
  * @returns {string} The replaced line content
  */
 function replaceLineContent(line: string, contentSubstitut: string, noContentSubstitut: string, previousAndNextMatch?: boolean): string {

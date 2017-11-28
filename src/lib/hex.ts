@@ -16,12 +16,12 @@ const decodeCharCodeArray = require('./charCode.js').decodeCharCode
 function generateHex(charcode: number[]): string[] {
     let arr: string[] = [];
     charcode.forEach(char => {
-        arr.push('#' + ((1 << 24) + (char << 16)).toString(16).slice(1)) // hfihfihfi
+        arr.push('#' + ((1 << 24) + (char << 16)).toString(16).slice(1))
     });
     return arr
 }
 /**
- * Generate a string from the string array of hexadecimal numbers.
+ * Generate a string from the string array of hexadecimal values.
  * Only the red from rgb is used to store characters, so the input will generally be #RRGGBB => #RR0000.
  * In fact, RR refers to a number between 0 and 255.
  * Hex code is used here to store a charcode into a color.
