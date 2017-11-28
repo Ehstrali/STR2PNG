@@ -9,8 +9,8 @@ const commentWithoutContent: RegExp = /^([ ]*)\/\/.*$/gm; // Matches if this is 
  */
 function replaceLineContent(line: string, contentSubstitut: string, noContentSubstitut: string, previousAndNextMatch?: boolean): string {
     const commentWithContent: RegExp = /^([ ]*)\/\/(.+).*$/gm; // Matches if this is a single line comment with some content after the '//'
-    const contentExists: RegExpMatchArray = line.match(commentWithContent);
-    const contentNotExisting: RegExpMatchArray = line.match(commentWithoutContent);
+    const contentExists: RegExpMatchArray | null = line.match(commentWithContent);
+    const contentNotExisting: RegExpMatchArray | null = line.match(commentWithoutContent);
     if (contentExists) {
         return line.replace(commentWithContent, contentSubstitut)
     } else if (!previousAndNextMatch && contentNotExisting) { // If comment is empty and there is no previons && next comment
@@ -26,7 +26,7 @@ function replaceLineContent(line: string, contentSubstitut: string, noContentSub
  * @param {RegExpMatchArray} nextMatch If the next line is a comment
  * @returns {string} The replaced line
  */
-  function replaceLine(line: string, previousMatch: RegExpMatchArray, nextMatch: RegExpMatchArray): string {
+  function replaceLine(line: string, previousMatch: RegExpMatchArray | null, nextMatch: RegExpMatchArray | null): string {
     if (previousMatch && nextMatch) {
         return replaceLineContent(line, '$1 *$2', '$1 *')
     } else if (previousMatch && !nextMatch) {
@@ -49,8 +49,8 @@ function replaceLineContent(line: string, contentSubstitut: string, noContentSub
 function singleToMultiLineComments(fileContent: string): string {
     const contentLines: string[] = fileContent.split('\n');
     const replacedLines: string[] = contentLines.map((line: string, index: number, contentLines: string[]): string => {
-        let previousMatch: RegExpMatchArray = null;
-        let nextMatch: RegExpMatchArray = null;
+        let previousMatch: RegExpMatchArray | null = null;
+        let nextMatch: RegExpMatchArray | null = null;
         if (index > 0) {
             previousMatch = contentLines[index - 1].match(commentWithoutContent)
         }

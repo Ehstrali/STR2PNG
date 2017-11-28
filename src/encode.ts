@@ -1,6 +1,5 @@
 import { readFileSync, createWriteStream } from 'fs';
 const { PNG } = require('pngjs');
-const path = require('path');
 
 const charCode = require('./lib/charCode.js');
 const hex = require('./lib/hex.js');
@@ -24,9 +23,12 @@ function encode(filePath: string, savePath: string): void {
         width: dimensions.getDimensions(hexArray.length).width,
         height: dimensions.getDimensions(hexArray.length).height
     })
-    function hexToRgb(hexa: string) {
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexa);
-        return parseInt(result[1], 16)
+    function hexToRgb(hexa: string): number | null {
+        let result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexa);
+        if (result) {
+            return parseInt(result[1], 16)
+        }
+        return null
     }
     function random(): number {
         return Math.round((Math.random() * 120) + 20)
@@ -36,7 +38,7 @@ function encode(filePath: string, savePath: string): void {
             for (var x = 0; x < png.width; x++) {
                 i++;
                 let idx = (png.width * y + x) << 2;
-                if (hexArray[i] !== undefined) {
+                if ((hexArray[i] !== undefined) && (hexToRgb(hexArray[i]) !== null)) {
                     png.data[idx] = hexToRgb(hexArray[i]);
                     png.data[idx + 1] = random();
                     png.data[idx + 2] = random(); // Maybe B could be used to store infos like: new line.
@@ -52,3 +54,5 @@ function encode(filePath: string, savePath: string): void {
     }
     png.pack().pipe(createWriteStream(savePath))
 }
+
+module.exports = { encode }

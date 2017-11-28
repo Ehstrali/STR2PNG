@@ -13,14 +13,7 @@ function generateCharCode(str: string): number[] {
     for (var i = 0; i < str.length; ++i) {
         arr[i] = str.charCodeAt(i)
     }
-    if (arr[1] === 34) { // Resolve a bug: When the first char is " it is truncated
-        arr[1] = 39 // Replace with '
-        let i = 0;
-        while ((arr[i] !== 34) && (i < str.length)) { // We search for the next "
-            i++
-        }
-        arr[i] = 39; // Replace it with '
-    }
+    arr.unshift(32); // new space at the beggining : Resolve a bug where the first element is deleted
     return arr
 }
 /**
