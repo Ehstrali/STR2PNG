@@ -1,30 +1,29 @@
 import { readFileSync, createWriteStream } from 'fs';
 const { PNG } = require('pngjs');
-
-const charCode = require('./lib/charCode.js');
-const hex = require('./lib/hex.js');
-const dimensions = require('./lib/dimensions.js');
-const comments = require('./lib/comments.js');
+const { generateCharCode } = require('./lib/charCode.js');
+const { generateHex } = require('./lib/hex.js');
+const { getDimensions } = require('./lib/dimensions.js');
+const { singleToMultiLineComments } = require('./lib/comments.js');
 /**
  * Create a PNG from a JS file
  * @param {string} filePath Path to the JS file to convert
  * @param {string} savePath Path to save the PNG file
  */
 function encode(filePath: string, savePath: string): void {
-    const content: string = comments.singleToMultiLineComments(readFileSync(filePath, { // Replace single line comments with multi line comments
+    const content: string = singleToMultiLineComments(readFileSync(filePath, { // Replace single line comments with multi line comments
         encoding: 'utf8'
     })).replace(/(\/\/[^\n\r]*(?:[\n\r]+|$))/gm, '');
     /**
      * Due to a bug some single line comments are left if they aren't on the beginning of the line
      * For now we remove them but it would be better to replace them with multi line comments
      */
-    const hexArray: string[] = hex.generateHex(charCode.generateCharCode(content));
+    const hexArray: string[] = generateHex(generateCharCode(content));
     const png = new PNG({
-        width: dimensions.getDimensions(hexArray.length).width,
-        height: dimensions.getDimensions(hexArray.length).height
+        width: getDimensions(hexArray.length).width,
+        height: getDimensions(hexArray.length).height
     })
-    function hexToRgb(hexa: string): number | null {
-        let result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexa);
+    function hexToRgb(hex: string): number | null {
+        let result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         if (result) {
             return parseInt(result[1], 16)
         }

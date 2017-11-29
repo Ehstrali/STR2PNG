@@ -1,29 +1,38 @@
 {
-    "filesGlob": [
-        "**/*.ts"
-    ],
     "compileOnSave": false,
-    "compilerOptions": {
-        "lib": [
-            "dom",
-            "es7"
+    "compilerOptions": {                     
+      "target": "ES6",
+      "module": "commonjs",
+      "lib": [
+          "dom",
+          "es7"
         ],
-        "target": "ES6",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "outDir": "out/",
-        "sourceMap": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "typeRoots": [
-            "node_modules/@types"
+      "sourceMap": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "importHelpers": true,
+      "downlevelIteration": true,
+      "isolatedModules": true,
+      "outDir": "out/",
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "moduleResolution": "node",
+      "typeRoots": [
+          "node_modules/@types"
         ],
-        "types": [
-            "node"
-        ]
+      "types": [
+          "node"
+        ],
+      "allowSyntheticDefaultImports": true,
+      "inlineSourceMap": true,
+      "inlineSources": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
     },
     "exclude": [
         "node_modules",
@@ -32,4 +41,4 @@
     "atom": {
         "rewriteTsconfig": false
     }
-}
+  }

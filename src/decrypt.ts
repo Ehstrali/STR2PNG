@@ -1,9 +1,7 @@
 const { createReadStream, writeFile } = require('fs');
 const { PNG } = require('pngjs');
 const { js_beautify } = require('js-beautify');
-const EventEmitter = require('events');
-
-const decodeHexa = require('./lib/hex.js').decodeHex;
+const { decodeHex } = require('./lib/hex.js');
 /**
  * Create a JS file from a PNG file
  * @param {string} filePath Path to the PNG file to convert
@@ -22,7 +20,7 @@ function decrypt(filePath: string, savePath: string): void {
                 }
             }
         }
-        let content: string = decodeHexa(arr);
+        let content: string = decodeHex(arr);
         writeFile(savePath, js_beautify(content), () => {}) // Use async because sync doesn't seems to work here...
     })
 }
