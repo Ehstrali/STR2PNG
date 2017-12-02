@@ -34,11 +34,11 @@ function getDimensions(length: number): { height: number; width: number } {
         height = Math.round(height)
     }
 
-    while ((height * (width - 1) > length) && ((height - 1) * width > length)) {
+    while ((height * (width - 1) > length) || ((height - 1) * width > length)) {
         // Height must be equal to width as much as possible
-        if ((height > width && (height - 1) * width > length) || height === width) {
+        if (((height > width) && ((height - 1) * width > length)) || height === width) {
             height -= 1
-        } else if ((width > height && height * (width - 1) > length) || ((width = height) && (height * (width - 1) > length))) {
+        } else if (((width > height) && (height * (width - 1) > length)) || ((width = height) && (height * (width - 1) > length))) {
             width -= 1
         }
     }

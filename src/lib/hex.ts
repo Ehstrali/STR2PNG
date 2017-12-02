@@ -1,4 +1,4 @@
-const decodeCharCodeArray = require('./charCode.js').decodeCharCode
+const { decodeCharCode } = require('./charCode.js');
 /**
  * Generate a hex values array from a charcode array with shades of red #RR0000.
  * Then, the hex value is able to be printed on a new image.

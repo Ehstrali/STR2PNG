@@ -1,25 +1,31 @@
 {
-    "name": "STR2PNG",
-    "description": "Allows you to create a PNG from a file",
-    "version": "1.0.0",
-    "keywords": [],
-    "author": "Ehstrali",
-    "dependencies": {
-        "pngjs": "~3.3.1",
-        "js-beautify": "~1.7.4"
-    },
-    "devDependencies": {
-        "@types/node": "~8.0.53",
-        "typescript": "^2.6.1",
-        "gulp": "~3.9.1",
-        "gulp-typescript": "~3.2.3",
-        "run-sequence": "~2.2.0",
-        "gulp-tslint": "~8.1.2",
-        "tslint": "~5.8.0"
-    },
-    "repository": {},
-    "build": {
-        "copyright": "Ehstrali",
-        "productName": "STR2PNG"
-    }
+  "name": "str2png",
+  "description": "Create an image from a file",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ehstrali/str2png/issues",
+    "email": "gregoire.pouthier@hotmail.fr"
+  },
+  "keywords": [],
+  "author": "Ehstrali",
+  "dependencies": {
+    "pngjs": "*",
+    "js-beautify": "*"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "typescript": "*",
+    "gulp": "*",
+    "gulp-typescript": "*",
+    "run-sequence": "*",
+    "gulp-tslint": "*",
+    "tslint": "*"
+  },
+  "repository": "https://github.com/Ehstrali/str2png",
+  "build": {
+    "copyright": "Ehstrali",
+    "productName": "str2png"
+  }
 }
