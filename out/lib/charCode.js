@@ -1,13 +1,12 @@
 "use strict";
 function generateCharCode(str) {
     if (typeof str !== 'string') {
-        return [0];
+        str = JSON.stringify(str);
     }
     let arr = [];
     for (var i = 0; i < str.length; ++i) {
         arr[i] = str.charCodeAt(i);
     }
-    arr.unshift(32);
     return arr;
 }
 function decodeCharCode(charcode) {

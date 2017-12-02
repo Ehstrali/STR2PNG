@@ -12,6 +12,6 @@ function decodeHex(hex) {
     hex.forEach(hexa => {
         arr.push(parseInt(hexa.slice(1, 3), 16));
     });
-    return decodeCharCodeArray(arr).join('');
+    return decodeCharCode(arr).join('');
 }
 module.exports = { generateHex, decodeHex };

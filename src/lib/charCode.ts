@@ -10,13 +10,12 @@
  */
 function generateCharCode(str: string): number[] {
     if (typeof str !== 'string') {
-        return [0]
+        str = JSON.stringify(str)
     }
     let arr: number[] = [];
     for (var i = 0; i < str.length; ++i) {
         arr[i] = str.charCodeAt(i)
     }
-    arr.unshift(32); // new space at the beggining : Resolve a bug where the first element is deleted
     return arr
 }
 /**
