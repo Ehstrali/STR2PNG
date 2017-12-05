@@ -11,8 +11,7 @@
   "keywords": [],
   "author": "Ehstrali",
   "dependencies": {
-    "pngjs": "*",
-    "js-beautify": "*"
+    "pngjs": "*"
   },
   "devDependencies": {
     "@types/node": "*",

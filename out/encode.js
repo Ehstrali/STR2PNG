@@ -5,22 +5,16 @@ const { PNG } = require('pngjs');
 const { generateCharCode } = require('./lib/charCode.js');
 const { generateHex } = require('./lib/hex.js');
 const { getDimensions } = require('./lib/dimensions.js');
-const { singleToMultiLineComments } = require('./lib/comments.js');
-const regexComments = /(\/\/[^\n\r]*(?:[\n\r]+|$))/gm;
-function encode(filePath, savePath) {
-    let content = fs_1.readFileSync(filePath, {
-        encoding: 'utf8'
-    });
-    if (content.match(regexComments)) {
-        content = singleToMultiLineComments(content).replace(regexComments, '');
-    }
+const { encrypto } = require('./lib/crypto.js');
+function encrypt(filePath, savePath) {
+    const content = encrypto(fs_1.readFileSync(filePath, 'utf8'));
     const hexArray = generateHex(generateCharCode(content));
     const png = new PNG({
         width: getDimensions(hexArray.length).width,
         height: getDimensions(hexArray.length).height
     });
     function hexToRgb(hex) {
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         if (result) {
             return parseInt(result[1], 16);
         }
@@ -50,4 +44,4 @@ function encode(filePath, savePath) {
     }
     png.pack().pipe(fs_1.createWriteStream(savePath));
 }
-module.exports = { encode };
+module.exports = { encrypt };

@@ -1,11 +1,12 @@
 "use strict";
-const { createReadStream, writeFile } = require('fs');
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = require("fs");
 const { PNG } = require('pngjs');
-const { js_beautify } = require('js-beautify');
 const { decodeHex } = require('./lib/hex.js');
+const { decrypto } = require('./lib/crypto.js');
 function decrypt(filePath, savePath) {
     let arr = [];
-    createReadStream(filePath)
+    fs_1.createReadStream(filePath)
         .pipe(new PNG())
         .on('parsed', function () {
         for (var y = 0; y < this.height; y++) {
@@ -17,7 +18,7 @@ function decrypt(filePath, savePath) {
             }
         }
         let content = decodeHex(arr);
-        writeFile(savePath, js_beautify(content), () => { });
+        fs_1.writeFile(savePath, decrypto(content), () => { });
     });
 }
 module.exports = { decrypt };

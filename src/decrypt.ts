@@ -1,7 +1,7 @@
-const { createReadStream, writeFile } = require('fs');
+import { createReadStream, writeFile } from 'fs';
 const { PNG } = require('pngjs');
-const { js_beautify } = require('js-beautify');
 const { decodeHex } = require('./lib/hex.js');
+const { decrypto } = require('./lib/crypto.js');
 /**
  * Create a JS file from a PNG file
  * @param {string} filePath Path to the PNG file to convert
@@ -21,7 +21,7 @@ function decrypt(filePath: string, savePath: string): void {
             }
         }
         let content: string = decodeHex(arr);
-        writeFile(savePath, js_beautify(content), () => {}) // Use async because sync doesn't seems to work here...
+        writeFile(savePath, decrypto(content), () => {}) // Use async because sync doesn't seems to work here...
     })
 }
 

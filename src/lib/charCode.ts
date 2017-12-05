@@ -9,9 +9,6 @@
  * // => [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
  */
 function generateCharCode(str: string): number[] {
-    if (typeof str !== 'string') {
-        str = JSON.stringify(str)
-    }
     let arr: number[] = [];
     for (var i = 0; i < str.length; ++i) {
         arr[i] = str.charCodeAt(i)
