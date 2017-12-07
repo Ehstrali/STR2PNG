@@ -4,7 +4,7 @@ const fs_1 = require("fs");
 const { PNG } = require('pngjs');
 const { decodeHex } = require('./lib/hex.js');
 const { decrypto } = require('./lib/crypto.js');
-function decrypt(filePath, savePath) {
+function decrypt(filePath, savePath, algorithm, key) {
     let arr = [];
     fs_1.createReadStream(filePath)
         .pipe(new PNG())
@@ -17,8 +17,14 @@ function decrypt(filePath, savePath) {
                 }
             }
         }
-        let content = decodeHex(arr);
-        fs_1.writeFile(savePath, decrypto(content), () => { });
+        if (algorithm === undefined) {
+            algorithm = 'aes128';
+        }
+        if (key === undefined) {
+            key = '';
+        }
+        const content = decodeHex(arr);
+        fs_1.writeFile(savePath, decrypto(content, algorithm, key), () => { });
     });
 }
 module.exports = { decrypt };

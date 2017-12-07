@@ -6,8 +6,14 @@ const { generateCharCode } = require('./lib/charCode.js');
 const { generateHex } = require('./lib/hex.js');
 const { getDimensions } = require('./lib/dimensions.js');
 const { encrypto } = require('./lib/crypto.js');
-function encrypt(filePath, savePath) {
-    const content = encrypto(fs_1.readFileSync(filePath, 'utf8'));
+function encrypt(filePath, savePath, algorithm, key) {
+    if (algorithm === undefined) {
+        algorithm = 'aes128';
+    }
+    if (key === undefined) {
+        key = '';
+    }
+    const content = encrypto(fs_1.readFileSync(filePath, 'utf8'), algorithm, key);
     const hexArray = generateHex(generateCharCode(content));
     const png = new PNG({
         width: getDimensions(hexArray.length).width,
@@ -21,7 +27,11 @@ function encrypt(filePath, savePath) {
         return null;
     }
     function random() {
-        return Math.round((Math.random() * 120) + 20);
+        let charCode = 'abcdefghijklmnopqrstuvwxyz1234567890'.charCodeAt(Math.round(Math.random() * 36));
+        if (isNaN(charCode)) {
+            charCode = 105;
+        }
+        return charCode;
     }
     let i = 0;
     for (var y = 0; y < png.height; y++) {

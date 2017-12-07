@@ -9,8 +9,14 @@ const { encrypto } = require('./lib/crypto.js');
  * @param {string} filePath Path to the JS file to convert
  * @param {string} savePath Path to save the PNG file
  */
-function encrypt(filePath: string, savePath: string): void {
-    const content: string = encrypto(readFileSync(filePath, 'utf8'));
+function encrypt(filePath: string, savePath: string, algorithm?: string, key?: string): void {
+    if (algorithm === undefined) {
+        algorithm = 'aes128'
+    }
+    if (key === undefined) {
+        key = ''
+    }
+    const content: string = encrypto(readFileSync(filePath, 'utf8'), algorithm, key);
     const hexArray: string[] = generateHex(generateCharCode(content));
     const png = new PNG({
         width: getDimensions(hexArray.length).width,
@@ -24,7 +30,11 @@ function encrypt(filePath: string, savePath: string): void {
         return null
     }
     function random(): number {
-        return Math.round((Math.random() * 120) + 20)
+        let charCode = 'abcdefghijklmnopqrstuvwxyz1234567890'.charCodeAt(Math.round(Math.random() * 36));
+        if (isNaN(charCode)) {
+            charCode = 105
+        }
+        return charCode
     }
     let i = 0;
     for (var y = 0; y < png.height; y++) {

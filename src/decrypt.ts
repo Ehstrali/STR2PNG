@@ -7,7 +7,7 @@ const { decrypto } = require('./lib/crypto.js');
  * @param {string} filePath Path to the PNG file to convert
  * @param {string} savePath Path to save the JS file
  */
-function decrypt(filePath: string, savePath: string): void {
+function decrypt(filePath: string, savePath: string, algorithm?: string, key?: string): void {
     let arr: string[] = [];
     createReadStream(filePath)
     .pipe(new PNG())
@@ -20,8 +20,14 @@ function decrypt(filePath: string, savePath: string): void {
                 }
             }
         }
-        let content: string = decodeHex(arr);
-        writeFile(savePath, decrypto(content), () => {}) // Use async because sync doesn't seems to work here...
+        if (algorithm === undefined) {
+            algorithm = 'aes128'
+        }
+        if (key === undefined) {
+            key = ''
+        }
+        const content: string = decodeHex(arr);
+        writeFile(savePath, decrypto(content, algorithm, key), () => {}) // Use async because sync doesn't seems to work here...
     })
 }
 
