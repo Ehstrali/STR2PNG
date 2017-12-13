@@ -40,7 +40,7 @@ function encrypt(filePath, savePath, options) {
         return null;
     }
     function random() {
-        let charCode = 'abcdefghijklmnopqrstuvwxyz1234567890'.charCodeAt(Math.round(Math.random() * 36));
+        let charCode = 'abcdef1234567890'.charCodeAt(Math.round(Math.random() * 16));
         if (isNaN(charCode)) {
             charCode = 105;
         }

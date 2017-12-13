@@ -41,7 +41,7 @@ function encrypt(filePath: string, savePath: string, options?: { algorithm?: str
         return null
     }
     function random(): number {
-        let charCode = 'abcdefghijklmnopqrstuvwxyz1234567890'.charCodeAt(Math.round(Math.random() * 36));
+        let charCode = 'abcdef1234567890'.charCodeAt(Math.round(Math.random() * 16));
         if (isNaN(charCode)) {
             charCode = 105
         }
@@ -59,7 +59,7 @@ function encrypt(filePath: string, savePath: string, options?: { algorithm?: str
     })
     const redHexArray: string[] = hexArray.slice(0, tier);
     const greenHexArray: string[] = hexArray.slice(tier, tier * 2);
-    const blueHexArray: string[] = hexArray.slice(tier * 2, tier * 2 + (length - tier * 2));
+    const blueHexArray: string[] = hexArray.slice(tier * 2, length);
     let i = 0;
     for (var y = 0; y < png.height; y++) {
         for (var x = 0; x < png.width; x++) {
