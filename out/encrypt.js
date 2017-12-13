@@ -58,7 +58,7 @@ function encrypt(filePath, savePath, options) {
     });
     const redHexArray = hexArray.slice(0, tier);
     const greenHexArray = hexArray.slice(tier, tier * 2);
-    const blueHexArray = hexArray.slice(tier * 2, tier * 2 + (length - tier * 2));
+    const blueHexArray = hexArray.slice(tier * 2, length);
     let i = 0;
     for (var y = 0; y < png.height; y++) {
         for (var x = 0; x < png.width; x++) {
