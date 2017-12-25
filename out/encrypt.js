@@ -6,31 +6,7 @@ const { generateCharCode } = require('./lib/charCode.js');
 const { generateHex } = require('./lib/hex.js');
 const { getDimensions } = require('./lib/dimensions.js');
 const { encrypto } = require('./lib/crypto.js');
-function parseOptions(options) {
-    let algorithm = 'aes128';
-    let key = '';
-    if (options === undefined) {
-        return { algorithm: 'aes128', key: '' };
-    }
-    if (typeof options === 'string') {
-        return { algorithm: options, key: '' };
-    }
-    else {
-        if (options.algorithm !== undefined) {
-            algorithm = options.algorithm;
-        }
-        else {
-            algorithm = 'aes128';
-        }
-        if (options.key !== undefined) {
-            key = options.key;
-        }
-        else {
-            key = '';
-        }
-    }
-    return { algorithm: algorithm, key: key };
-}
+const { parseOptions } = require('./lib/parseOptions.js');
 function encrypt(filePath, savePath, options) {
     function hexToRgb(hex) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -42,19 +18,19 @@ function encrypt(filePath, savePath, options) {
     function random() {
         let charCode = 'abcdef1234567890'.charCodeAt(Math.round(Math.random() * 16));
         if (isNaN(charCode)) {
-            charCode = 105;
+            charCode = 65;
         }
         return charCode;
     }
-    const algorithm = parseOptions(options).algorithm;
-    const key = parseOptions(options).key;
-    const content = encrypto(fs_1.readFileSync(filePath, 'utf8'), algorithm, key);
+    const option = parseOptions(options);
+    const content = encrypto(fs_1.readFileSync(filePath, 'utf8'), option.algorithm, option.key, option.encrypt);
     const hexArray = generateHex(generateCharCode(content));
     const length = hexArray.length;
     const tier = Math.round(length / 3) + 1;
+    const dimensions = getDimensions(tier);
     const png = new PNG({
-        width: getDimensions(tier).width,
-        height: getDimensions(tier).height
+        width: dimensions.width,
+        height: dimensions.height
     });
     const redHexArray = hexArray.slice(0, tier);
     const greenHexArray = hexArray.slice(tier, tier * 2);
@@ -63,7 +39,7 @@ function encrypt(filePath, savePath, options) {
     for (var y = 0; y < png.height; y++) {
         for (var x = 0; x < png.width; x++) {
             let idx = (png.width * y + x) << 2;
-            if ((hexArray[i] !== undefined) && ((hexToRgb(redHexArray[i]) !== null) || (hexToRgb(greenHexArray[i]) !== null) || (hexToRgb(blueHexArray[i]) !== null))) {
+            if (hexArray[i] !== undefined) {
                 let isNull = 255;
                 if (hexToRgb(redHexArray[i]) !== null) {
                     png.data[idx] = hexToRgb(redHexArray[i]);
