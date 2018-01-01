@@ -42,9 +42,9 @@ function decrypt(filePath, callback) {
             }
         }
         const arr = redArr.concat(greenArr, blueArr);
-        let content = decodeHex(arr).replace(/__NEWLINE__RN__/g, '\r\n');
-        content = content.replace(/__NEWLINE__N__/g, '\n');
-        callback(content.replace(/__NEWLINE__R__/g, '\r'));
+        let content = decodeHex(arr);
+        content = content.replace(/__RN__/g, '\r\n').replace(/__N__/g, '\n').replace(/__R__/g, '\r');
+        callback(content);
     });
 }
 module.exports = { decrypt };

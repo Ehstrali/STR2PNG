@@ -22,9 +22,7 @@ function encrypt(content: string) {
         }
         return charCode
     }
-    content = content.replace(/(\r\n)/gm, '__NEWLINE__RN__');
-    content = content.replace(/(\n)/gm, '__NEWLINE__N__');
-    content = content.replace(/(\r)/gm, '__NEWLINE__R__');
+    content = content.replace(/(\r\n)/gm, '__RN__').replace(/(\n)/gm, '__N__').replace(/(\r)/gm, '__R__');
     const hexArray: string[] = generateHex(generateCharCode(content));
     const length: number = hexArray.length;
     const tier = Math.round(length / 3) + 1;

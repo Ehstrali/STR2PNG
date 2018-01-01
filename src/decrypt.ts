@@ -39,9 +39,9 @@ function decrypt(filePath: string, callback: string): string | void {
             }
         }
         const arr: string[] = redArr.concat(greenArr, blueArr);
-        let content: string = decodeHex(arr).replace(/__NEWLINE__RN__/g, '\r\n');
-        content = content.replace(/__NEWLINE__N__/g, '\n');
-        callback(content.replace(/__NEWLINE__R__/g, '\r'))
+        let content: string = decodeHex(arr)
+        content = content.replace(/__RN__/g, '\r\n').replace(/__N__/g, '\n').replace(/__R__/g, '\r');
+        callback(content)
     })
 }
 
