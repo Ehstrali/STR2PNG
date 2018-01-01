@@ -25,6 +25,6 @@ const { writeFileSync } = require('fs');
 const str2png = require('str2png');
 
 str2png.decrypt('image.png', (content) => {
-    writeFileSync('file.js', content))
-}
+    writeFileSync('file.js', content)
+})
 ```
