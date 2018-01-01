@@ -1,21 +1,18 @@
-import { createReadStream, writeFile } from 'fs';
+import { createReadStream } from 'fs';
 const { PNG } = require('pngjs');
 const { decodeHex } = require('./lib/hex.js');
-const { decrypto } = require('./lib/crypto.js');
-const { parseOptions } = require('./lib/parseOptions.js');
 /**
  * Create a JS file from a PNG file
  * @param {string} filePath Path to the PNG file to convert
  * @param {string} savePath Path to save the JS file
  */
-function decrypt(filePath: string, savePath: string, options?: { algorithm?: string, key?: string, encrypt?: boolean } | string): void {
-    const option = parseOptions(options)
+function decrypt(filePath: string, callback: string): string | void {
     const redArr: string[] = [];
     const greenArr: string[] = [];
     const blueArr: string[] = [];
     createReadStream(filePath)
     .pipe(new PNG())
-    .on('parsed', function (): void { // Do not use arrow function here
+    .on('parsed', function (): void {
         for (var y = 0; y < this.height; y++) {
             for (var x = 0; x < this.width; x++) {
                 let idx = (this.width * y + x) << 2;
@@ -42,8 +39,9 @@ function decrypt(filePath: string, savePath: string, options?: { algorithm?: str
             }
         }
         const arr: string[] = redArr.concat(greenArr, blueArr);
-        const content: string = decodeHex(arr);
-        writeFile(savePath, decrypto(content, option.algorithm, option.key, option.encrypt), () => {})
+        let content: string = decodeHex(arr).replace(/__NEWLINE__RN__/g, '\r\n');
+        content = content.replace(/__NEWLINE__N__/g, '\n');
+        callback(content.replace(/__NEWLINE__R__/g, '\r'))
     })
 }
 

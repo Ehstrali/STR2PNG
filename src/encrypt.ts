@@ -1,17 +1,13 @@
-import { readFileSync, createWriteStream } from 'fs';
 const { PNG } = require('pngjs');
 const { generateCharCode } = require('./lib/charCode.js');
 const { generateHex } = require('./lib/hex.js');
 const { getDimensions } = require('./lib/dimensions.js');
-const { encrypto } = require('./lib/crypto.js');
-const { parseOptions } = require('./lib/parseOptions.js');
 /**
  * Create a PNG from a JS file
  * @param {string} filePath Path to the JS file to convert
  * @param {string} savePath Path to save the PNG file
- * @param {{ algorithm?: string; key?: string; encrypt?: boolean } | string | undefined} options Options
  */
-function encrypt(filePath: string, savePath: string, options?: { algorithm?: string; key?: string; encrypt?: boolean } | string): void {
+function encrypt(content: string) {
     function hexToRgb(hex: string): number | null {
         const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         if (result) {
@@ -26,8 +22,9 @@ function encrypt(filePath: string, savePath: string, options?: { algorithm?: str
         }
         return charCode
     }
-    const option = parseOptions(options);
-    const content: string = encrypto(readFileSync(filePath, 'utf8'), option.algorithm, option.key, option.encrypt);
+    content = content.replace(/(\r\n)/gm, '__NEWLINE__RN__');
+    content = content.replace(/(\n)/gm, '__NEWLINE__N__');
+    content = content.replace(/(\r)/gm, '__NEWLINE__R__');
     const hexArray: string[] = generateHex(generateCharCode(content));
     const length: number = hexArray.length;
     const tier = Math.round(length / 3) + 1;
@@ -85,7 +82,7 @@ function encrypt(filePath: string, savePath: string, options?: { algorithm?: str
             i++
         }
     }
-    png.pack().pipe(createWriteStream(savePath))
+    return png.pack()
 }
 
 module.exports = { encrypt }

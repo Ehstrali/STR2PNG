@@ -1,13 +1,9 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = require("fs");
 const { PNG } = require('pngjs');
 const { generateCharCode } = require('./lib/charCode.js');
 const { generateHex } = require('./lib/hex.js');
 const { getDimensions } = require('./lib/dimensions.js');
-const { encrypto } = require('./lib/crypto.js');
-const { parseOptions } = require('./lib/parseOptions.js');
-function encrypt(filePath, savePath, options) {
+function encrypt(content) {
     function hexToRgb(hex) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         if (result) {
@@ -22,8 +18,9 @@ function encrypt(filePath, savePath, options) {
         }
         return charCode;
     }
-    const option = parseOptions(options);
-    const content = encrypto(fs_1.readFileSync(filePath, 'utf8'), option.algorithm, option.key, option.encrypt);
+    content = content.replace(/(\r\n)/gm, '__NEWLINE__RN__');
+    content = content.replace(/(\n)/gm, '__NEWLINE__N__');
+    content = content.replace(/(\r)/gm, '__NEWLINE__R__');
     const hexArray = generateHex(generateCharCode(content));
     const length = hexArray.length;
     const tier = Math.round(length / 3) + 1;
@@ -89,6 +86,6 @@ function encrypt(filePath, savePath, options) {
             i++;
         }
     }
-    png.pack().pipe(fs_1.createWriteStream(savePath));
+    return png.pack();
 }
 module.exports = { encrypt };

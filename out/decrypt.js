@@ -3,10 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const { PNG } = require('pngjs');
 const { decodeHex } = require('./lib/hex.js');
-const { decrypto } = require('./lib/crypto.js');
-const { parseOptions } = require('./lib/parseOptions.js');
-function decrypt(filePath, savePath, options) {
-    const option = parseOptions(options);
+function decrypt(filePath, callback) {
     const redArr = [];
     const greenArr = [];
     const blueArr = [];
@@ -45,8 +42,9 @@ function decrypt(filePath, savePath, options) {
             }
         }
         const arr = redArr.concat(greenArr, blueArr);
-        const content = decodeHex(arr);
-        fs_1.writeFile(savePath, decrypto(content, option.algorithm, option.key, option.encrypt), () => { });
+        let content = decodeHex(arr).replace(/__NEWLINE__RN__/g, '\r\n');
+        content = content.replace(/__NEWLINE__N__/g, '\n');
+        callback(content.replace(/__NEWLINE__R__/g, '\r'));
     });
 }
 module.exports = { decrypt };
