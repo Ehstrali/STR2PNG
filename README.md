@@ -1,17 +1,30 @@
 # STR2PNG
 
+## Install str2png
+
+Add this in your package.json:
+```javascript
+"str2png": "https://github.com/Ehstrali/str2png"
+```
+
 ## Convert a file to png
 
 ```javascript
-const content = fs.readFileSync('file.js', 'utf8');
-const image = encrypt(content);
-image.pipe(fs.createWriteStream('image.png'));
+const { createWriteStream, readFileSync } = require('fs');
+const str2png = require('str2png');
+
+const content = readFileSync('file.js', 'utf8');
+const image = str2png.encrypt(content);
+image.pipe(createWriteStream('image.png'));
 ```
 
 ## Convert it back
 
 ```javascript
-const content = decrypt('image.png', (content) => {
-    fs.writeFileSync('file.js', content))
+const { writeFileSync } = require('fs');
+const str2png = require('str2png');
+
+str2png.decrypt('image.png', (content) => {
+    writeFileSync('file.js', content))
 }
 ```
