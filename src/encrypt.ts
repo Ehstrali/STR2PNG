@@ -39,7 +39,7 @@ export module encrypt {
         for (var y = 0; y < png.height; y++) {
             for (var x = 0; x < png.width; x++) {
                 let idx = (png.width * y + x) << 2;
-                if ((hexArray[i] !== undefined) && (hexArray[tier + i] !== undefined) && (hexArray[tier * 2 + i] !== undefined)) {
+                if ((hexArray[i] !== undefined) || (hexArray[tier + i] !== undefined) || (hexArray[tier * 2 + i] !== undefined)) {
                     let isNull = 255;
                     if (hexToRgb(redHexArray[i]) !== null) {
                         png.data[idx] = hexToRgb(redHexArray[i])
