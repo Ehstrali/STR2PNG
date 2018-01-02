@@ -2,6 +2,6 @@ const { decrypt } = require('./out/decrypt.js');
 const { encrypt } = require('./out/encrypt.js');
 
 module.exports = {
-    decrypt,
-    encrypt
+    decrypt: decrypt.decrypt,
+    encrypt: encrypt.encrypt
 }
