@@ -4,11 +4,11 @@ import { dimensions } from './lib/dimensions.js';
 const { PNG } = require('pngjs');
 export module encrypt {
    /**
-    * Create a PNG from a JS file
-    * @param {string} filePath Path to the JS file to convert
-    * @param {string} savePath Path to save the PNG file
+    * Returns a PNG from a given string
+    * @param {string} content the content of a file
+    * @returns {Buffer} the content of the image
     */
-    export function encrypt(content: string) {
+    export function encrypt(content: string): Buffer {
         function hexToRgb(hex: string): number | null {
             const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             if (result) {

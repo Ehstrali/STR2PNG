@@ -1,19 +1,19 @@
-import { createReadStream } from 'fs';
+import { PassThrough } from 'stream';
 import { hex } from './lib/hex.js';
 const { PNG } = require('pngjs');
 export module decrypt {
    /**
-    * Create a JS file from a PNG file
-    * @param {string} filePath Path to the PNG file to convert
-    * @param {string} savePath Path to save the JS file
+    * Returns a string from a given Buffer
+    * @param {Buffer} content Must be the buffer of the image
+    * @param {Function} callback
     */
-    export function decrypt(filePath: string, callback: Function): void {
+    export function decrypt(content: Buffer, callback: Function): void {
         const redArr: string[] = [];
         const greenArr: string[] = [];
         const blueArr: string[] = [];
-        createReadStream(filePath)
-        .pipe(new PNG())
-        .on('parsed', function (this: any): void {
+        const stream = new PassThrough();
+        stream.end(content)
+        stream.pipe(new PNG()).on('parsed', function (this: any): void {
             for (var y = 0; y < this.height; y++) {
                 for (var x = 0; x < this.width; x++) {
                     const idx = (this.width * y + x) << 2;

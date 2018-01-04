@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = require("fs");
+const stream_1 = require("stream");
 const hex_js_1 = require("./lib/hex.js");
 const { PNG } = require('pngjs');
 var decrypt;
 (function (decrypt_1) {
-    function decrypt(filePath, callback) {
+    function decrypt(content, callback) {
         const redArr = [];
         const greenArr = [];
         const blueArr = [];
-        fs_1.createReadStream(filePath)
-            .pipe(new PNG())
-            .on('parsed', function () {
+        const stream = new stream_1.PassThrough();
+        stream.end(content);
+        stream.pipe(new PNG()).on('parsed', function () {
             for (var y = 0; y < this.height; y++) {
                 for (var x = 0; x < this.width; x++) {
                     const idx = (this.width * y + x) << 2;

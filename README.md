@@ -12,19 +12,24 @@ Add this in your package.json:
 ```javascript
 const { createWriteStream, readFileSync } = require('fs');
 const str2png = require('str2png');
-
-const content = readFileSync('file.js', 'utf8'); // file.js is the file you want to convert, it may not be a js file
+// file.js is the file you want to convert
+const content = readFileSync('file.js', 'utf8');
+// image is a Buffer, it's the content of the image
+// content must be of type string
 const image = str2png.encrypt(content);
-image.pipe(createWriteStream('image.png')); // image.png is the converted file
+// image.png is the path to the converted file
+image.pipe(createWriteStream('image.png'));
 ```
 
 ## Convert it back
 
 ```javascript
-const { writeFileSync } = require('fs');
+const { writeFileSync, readFileSync } = require('fs');
 const str2png = require('str2png');
 
-str2png.decrypt('image.png', (content) => {
+const imageBuffer = readFileSync('image.png');
+// First argument must be a Buffer of the image
+str2png.decrypt(imageBuffer, (content) => {
     writeFileSync('file.js', content)
 })
 ```
